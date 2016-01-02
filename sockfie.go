@@ -38,8 +38,10 @@ func main() {
 	checkError(err)
 	for {
 		n, err := file.Read(buffer)
-		if err != nil && err != io.EOF {
-			fmt.Println(err)
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+			}
 			break
 		}
 		nWrite, err := out.Write(buffer[:n])
