@@ -69,7 +69,8 @@ func isCiaFile(path string) bool {
 		return false
 	}
 	ext := path[len(path)-4:]
-	if (ext[1] == 'c' || ext[1] == 'C') &&
+	if (ext[0] == '.') &&
+		(ext[1] == 'c' || ext[1] == 'C') &&
 		(ext[2] == 'i' || ext[2] == 'i') &&
 		(ext[3] == 'a' || ext[3] == 'A') {
 		return true
