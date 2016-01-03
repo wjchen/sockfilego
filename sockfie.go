@@ -6,6 +6,9 @@ import (
 	"io"
 	"net"
 	"os"
+	"time"
+
+	"github.com/cheggaaa/pb"
 )
 
 const defaultPort = "5000"
@@ -36,12 +39,34 @@ func main() {
 	//write filesize
 	err = binary.Write(out, binary.BigEndian, &fileSize)
 	checkError(err)
+
+	//progress bar
+	bar := pb.New64(fileSize)
+	bar.SetRefreshRate(time.Second)
+	bar.ShowCounters = false
+	bar.ShowTimeLeft = true
+	bar.ShowSpeed = true
+	bar.SetUnits(pb.U_BYTES)
+	pbStartFlag := false
+	ciaInstallSuccess := false
+
 	for {
 		n, err := file.Read(buffer)
 		if err != nil {
-			if err != io.EOF {
+			if err == io.EOF {
+				bar.Set64(fileSize)
+				ciaInstallSuccess = true
+			} else {
 				fmt.Println(err)
 			}
+			break
+		}
+		if pbStartFlag == false {
+			pbStartFlag = true
+			bar.Set64(0)
+			bar.Start()
+		}
+		if n <= 0 {
 			break
 		}
 		nWrite, err := out.Write(buffer[:n])
@@ -49,10 +74,17 @@ func main() {
 			fmt.Println(err)
 			break
 		}
+		bar.Add(nWrite)
 		if n != nWrite {
 			fmt.Println("partial write...")
 			break
 		}
+	}
+
+	if ciaInstallSuccess {
+		bar.FinishPrint("Install cia file success")
+	} else {
+		bar.FinishPrint("Install cia file failed")
 	}
 }
 
