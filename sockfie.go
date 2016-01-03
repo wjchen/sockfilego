@@ -28,6 +28,10 @@ func main() {
 	fileInfo, err := file.Stat()
 	checkError(err)
 	fileSize := fileInfo.Size()
+	if fileSize <= 0 {
+		fmt.Println("Empty file")
+		return
+	}
 	ipPort := setDefaultPort(os.Args[1])
 	raddr, err := net.ResolveTCPAddr("tcp", ipPort)
 	checkError(err)
