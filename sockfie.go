@@ -61,11 +61,6 @@ func main() {
 			}
 			break
 		}
-		if pbStartFlag == false {
-			pbStartFlag = true
-			bar.Set64(0)
-			bar.Start()
-		}
 		if n <= 0 {
 			break
 		}
@@ -73,6 +68,11 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			break
+		}
+		if pbStartFlag == false {
+			pbStartFlag = true
+			bar.Set64(0)
+			bar.Start()
 		}
 		bar.Add(nWrite)
 		if n != nWrite {
