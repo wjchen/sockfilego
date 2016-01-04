@@ -27,6 +27,10 @@ func main() {
 	defer file.Close()
 	fileInfo, err := file.Stat()
 	checkError(err)
+	if fileInfo.IsDir() {
+		fmt.Printf("Error, %s is dir!\n", os.Args[2])
+		return
+	}
 	fileSize := fileInfo.Size()
 	if fileSize <= 0 {
 		fmt.Println("Empty file")
