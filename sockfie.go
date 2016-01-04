@@ -32,6 +32,10 @@ func main() {
 		fmt.Println("Empty file")
 		return
 	}
+	titleid, serial := ciaTitleSerial(os.Args[2])
+	fmt.Println("Installing cia file:", os.Args[2])
+	fmt.Printf("Titleid: %016x, Seiral: %s\n", titleid, serial)
+
 	ipPort := setDefaultPort(os.Args[1])
 	raddr, err := net.ResolveTCPAddr("tcp", ipPort)
 	checkError(err)
