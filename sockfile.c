@@ -26,7 +26,7 @@
 #define EINPROGRESS WSAEINPROGRESS
 #endif
 #define errno WSAGetLastError()
-// #define close(fd) closesocket(fd)
+#define close(fd) closesocket(fd)
 #endif
 
 #ifndef SOL_TCP
