@@ -202,14 +202,14 @@ int main(int argc,char** argv) {
     if(sockfd < 0) {
         printf("Failed creating socket: %s.\n", strerror(errno));
         goto end;
-    } else {
-        printf("Client socket created on port %d\n", ntohs(addr.sin_port));
     }
 
     int ret = connect(sockfd, (struct sockaddr*)&addr, sizeof(addr));
     if(ret < 0) { 
         printf("Failed connecting server: %s.\n", strerror(errno));
         goto end;
+    } else {
+        printf("Connected to %s:%d\n", inet_ntoa(addr.sin_addr), ntohs(addr.sin_port));
     }
 
     // O_BINARY needed by win
