@@ -15,6 +15,9 @@
 #ifndef O_BINARY
 #define O_BINARY 0
 #endif
+#ifndef closesocket
+#define closesocket(fd) close(fd)
+#endif
 
 #else
 #include <winsock2.h>
@@ -25,8 +28,8 @@
 #ifndef EINPROGRESS
 #define EINPROGRESS WSAEINPROGRESS
 #endif
+#undef errno
 #define errno WSAGetLastError()
-#define close(fd) closesocket(fd)
 #endif
 
 #ifndef SOL_TCP
@@ -260,7 +263,7 @@ int main(int argc,char** argv) {
 
 end:
     if(sockfd >= 0) {
-        close(sockfd);
+        closesocket(sockfd);
     }
     if(ciafd >= 0) {
         close(ciafd);
